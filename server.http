@@ -1,0 +1,14 @@
+POST http://localhost:5000/api/v1/user HTTP/1.1
+content-type: application/json
+
+{
+    "lastName": "Tran",
+    "firstName": "Ly",
+    "email": "tttrucly1@gmail.com",
+    "password": "123456",
+    "birthday": "11/2/2001",
+    "gender": "Female"
+}
+
+###
+GET http://localhost:5000/api/v1/post/getPosts HTTP/1.1
