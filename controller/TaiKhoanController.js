@@ -34,9 +34,7 @@ export const TaoTaiKhoan = async (req, res) => {
 export const getDSTaiKhoan = async (req, res) => {
   try {
     const taiKhoans = await TaiKhoan.find();
-    return res.status(200).json({
-      taiKhoans,
-    });
+    return res.status(200).json(taiKhoans);
   } catch (error) {
     return res.json({
       success: false,
