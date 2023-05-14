@@ -8,6 +8,6 @@ const router = express.Router();
 
 //--------auth
 router.post("/taoTaiKhoan", TaoTaiKhoan);
-router.post("/getDSTaiKhoan", getDSTaiKhoan);
+router.get("/getDSTaiKhoan", getDSTaiKhoan);
 
 export default router;
