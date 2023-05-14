@@ -26,6 +26,7 @@ export const TaoLTC = async (req, res) => {
   const ltc = new LopTinChi(newTK);
   try {
     await ltc.save();
+
     return res.json({
       success: true,
       message: "Tạo lớp tín chỉ thành công",
