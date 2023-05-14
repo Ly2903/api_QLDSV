@@ -1,14 +1,15 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
-const Post = new Schema(
+const TaiKhoan = new Schema(
   {
-    content: {
+    MaTk: String,
+    TenTaiKhoan: {
       type: String,
-      default: "",
+      unique: true,
     },
-    attachments: Array,
-    author: String,
+    MatKhau: String,
+    MaVaitro: String,
   },
   {
     timestamps: true,
@@ -20,4 +21,4 @@ const Post = new Schema(
   }
 );
 
-export default mongoose.model("post", Post);
+export default mongoose.model("TaiKhoan", TaiKhoan);
