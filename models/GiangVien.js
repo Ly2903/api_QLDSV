@@ -1,18 +1,17 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
-const SinhVien = new Schema(
+const GiangVien = new Schema(
   {
-    MaSV: String,
+    MaGV: String,
     HoTen: String,
-    Phai: Boolean,
+    HocVi: String,
+    HocHam: String,
+    DiaChi: String,
     NgaySinh: Date,
     DiaChi: String,
-    KhoaHoc: String,
+    ChuyenMon: String,
     TrangThaiNghi: Boolean,
-    MaCN: String,
-    MaLop: String,
-    HinhAnh: String,
   },
   {
     timestamps: true,
@@ -24,4 +23,4 @@ const SinhVien = new Schema(
   }
 );
 
-export default mongoose.model("SinhVien", SinhVien);
+export default mongoose.model("GiangVien", GiangVien);

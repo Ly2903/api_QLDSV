@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { PORT } from "./config/index.js";
 import taiKhoanRoute from "./routes/taiKhoanRoute.js";
+import nhapDiemRoute from "./routes/nhapDiemRoute.js";
 import connectDB from "./database/index.js";
 
 //connect
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cors()); //cross site orgin resource sharing
 
 app.use("/api/v1/taiKhoan", taiKhoanRoute);
+app.use("/api/v1/nhapDiem", nhapDiemRoute);
 
 app.listen(PORT, () => {
   console.log("Connect ", PORT);

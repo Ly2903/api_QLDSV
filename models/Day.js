@@ -1,13 +1,10 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
-const Lop = new Schema(
+const Day = new Schema(
   {
-    MaLop: String,
-    TenLop: {
-      type: String,
-      unique: true,
-    },
+    MaGV: String,
+    MaLTC: String,
   },
   {
     timestamps: true,
@@ -19,4 +16,4 @@ const Lop = new Schema(
   }
 );
 
-export default mongoose.model("Lop", Lop);
+export default mongoose.model("Day", Day);

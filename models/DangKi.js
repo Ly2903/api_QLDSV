@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
-const Lop = new Schema(
+const DangKi = new Schema(
   {
-    MaLop: String,
-    TenLop: {
-      type: String,
-      unique: true,
-    },
+    MaLTC: String,
+    MaSV: String,
+    DiemCC: Number,
+    DiemGK: Number,
+    DiemCK: Number,
+    Huy: Boolean,
   },
   {
     timestamps: true,
@@ -19,4 +20,4 @@ const Lop = new Schema(
   }
 );
 
-export default mongoose.model("Lop", Lop);
+export default mongoose.model("DangKi", DangKi);

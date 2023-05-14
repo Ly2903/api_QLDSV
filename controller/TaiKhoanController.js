@@ -2,7 +2,6 @@ import TaiKhoan from "../models/TaiKhoan.js";
 
 export const TaoTaiKhoan = async (req, res) => {
   let newTK = null;
-  console.log(res.body);
   if (Object.keys(req.body).length) {
     newTK = req.body;
   } else if (Object.keys(req.query).length) {
@@ -14,12 +13,39 @@ export const TaoTaiKhoan = async (req, res) => {
     return res.json({
       success: true,
       message: "Tạo tài khoản thành công",
-      post: post,
     });
   } catch (error) {
+    console.log("error", error);
+    if (error.code == 11000) {
+      return res.json({
+        success: false,
+        message: "Tên tài khoản bị trùng!",
+      });
+    }
+
     return res.json({
       success: false,
       message: "Lỗi khi tạo tài khoản!",
     });
   }
 };
+
+//all tài khoản
+export const getDSTaiKhoan = async (req, res) => {
+  try {
+    const taiKhoans = await TaiKhoan.find();
+    return res.status(200).json({
+      success: true,
+      message: "Lây danh sách tài khoản thành công!",
+      taiKhoans,
+    });
+  } catch (error) {
+    return res.json({
+      success: false,
+      message: "Thất bại!",
+    });
+  }
+};
+//danh sách lớp
+//danh sách sinh viên có tài khoản
+//danh sách sinh vien chưa có tài khoản
