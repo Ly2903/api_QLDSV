@@ -35,8 +35,6 @@ export const getDSTaiKhoan = async (req, res) => {
   try {
     const taiKhoans = await TaiKhoan.find();
     return res.status(200).json({
-      success: true,
-      message: "Lây danh sách tài khoản thành công!",
       taiKhoans,
     });
   } catch (error) {
@@ -47,5 +45,5 @@ export const getDSTaiKhoan = async (req, res) => {
   }
 };
 //danh sách lớp
-//danh sách sinh viên có tài khoản
+//danh sách mã sinh viên chưa có tài khoản
 //danh sách sinh vien chưa có tài khoản
