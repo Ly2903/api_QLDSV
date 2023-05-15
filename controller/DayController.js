@@ -1,30 +1,14 @@
 import Day from "../models/Day.js";
-import LopTinChi from "../models/LopTinChi.js";
+import SinhVien from "../models/SinhVien.js";
 
-export const getDSLTC = async (req, res) => {
-  try {
-    const DSLTC = await LopTinChi.find();
-    return res.status(200).json({
-      success: true,
-      message: "Lây danh sách lớp tín chỉ thành công!",
-      DSLTC,
-    });
-  } catch (error) {
-    return res.json({
-      success: false,
-      message: "Thất bại!",
-    });
-  }
-};
-
-export const TaoLTC = async (req, res) => {
+export const TaoDay = async (req, res) => {
   let newTK = null;
   if (Object.keys(req.body).length) {
     newTK = req.body;
   } else if (Object.keys(req.query).length) {
     newTK = req.query;
   }
-  const ltc = new LopTinChi(newTK);
+  const ltc = new Day(newTK);
   try {
     await ltc.save();
 
@@ -48,16 +32,20 @@ export const TaoLTC = async (req, res) => {
   }
 };
 
-export const getDSNamHocTheoLTC = async (req, res) => {
+export const getDSLTCTheoMaGV = async (req, res) => {
+  let body = null;
+  if (Object.keys(req.body).length) {
+    body = req.body;
+  } else if (Object.keys(req.query).length) {
+    body = req.query;
+  }
+  const { MaGV } = body;
   try {
-    let ds = await LopTinChi.find();
-    ///parseInt("2018-2019".substring(0,4))
-    ds = ds.map((val) => val.NamHoc);
-    ds.sort();
+    const DSLTC = await Day.find({ MaGV: MaGV });
     return res.status(200).json({
       success: true,
-      message: "Lây danh sách sinh viên theo mã lớp tín chỉ thành công!",
-      DSNamHoc: ds,
+      message: "Lây danh sách lớp tín chỉ theo mã giảng viên thành công!",
+      DSLTC,
     });
   } catch (error) {
     console.log(error);

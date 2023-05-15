@@ -11,6 +11,7 @@ const LopTinChi = new Schema(
     NgayBD: Date,
     NgayKT: Date,
     MaMH: String,
+    TenMH: String,
     slconlai: Number,
     TrangThai: Boolean,
   },

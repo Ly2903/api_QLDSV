@@ -5,6 +5,10 @@ import { PORT } from "./config/index.js";
 import taiKhoanRoute from "./routes/taiKhoanRoute.js";
 import nhapDiemRoute from "./routes/nhapDiemRoute.js";
 import LTCRoute from "./routes/LTCRoute.js";
+import GiangVienRoute from "./routes/GiangVienRoute.js";
+import SinhVienRoute from "./routes/SinhVienRoute.js";
+import DangKiRoute from "./routes/DangKiRoute.js";
+import DayRoute from "./routes/DayRoute.js";
 import connectDB from "./database/index.js";
 
 //connect
@@ -18,6 +22,10 @@ app.use(cors()); //cross site orgin resource sharing
 app.use("/api/v1/taiKhoan", taiKhoanRoute);
 app.use("/api/v1/LTC", LTCRoute);
 app.use("/api/v1/nhapDiem", nhapDiemRoute);
+app.use("/api/v1/giangVien", GiangVienRoute);
+app.use("/api/v1/sinhVien", SinhVienRoute);
+app.use("/api/v1/dangKi", DangKiRoute);
+app.use("/api/v1/day", DayRoute);
 
 app.listen(PORT, () => {
   console.log("Connect ", PORT);

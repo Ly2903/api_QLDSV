@@ -7,7 +7,7 @@ const GiangVien = new Schema(
     HoTen: String,
     HocVi: String,
     HocHam: String,
-    DiaChi: String,
+    Phai: Boolean,
     NgaySinh: Date,
     DiaChi: String,
     ChuyenMon: String,
