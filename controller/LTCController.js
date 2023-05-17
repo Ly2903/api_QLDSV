@@ -54,11 +54,7 @@ export const getDSNamHocTheoLTC = async (req, res) => {
     ///parseInt("2018-2019".substring(0,4))
     ds = ds.map((val) => val.NamHoc);
     ds.sort();
-    return res.status(200).json({
-      success: true,
-      message: "Lây danh sách sinh viên theo mã lớp tín chỉ thành công!",
-      DSNamHoc: ds,
-    });
+    return res.status(200).json(ds);
   } catch (error) {
     console.log(error);
     return res.json({
