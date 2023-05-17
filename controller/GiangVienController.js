@@ -42,7 +42,7 @@ export const getTTGVTheoMaGV = async (req, res) => {
   const { MaGV } = body;
   try {
     const giangVien = await GiangVien.find({ MaGV: MaGV });
-    return res.status(200).json(giangVien[0]);
+    return res.status(200).json(giangVien[0].HoTen);
   } catch (error) {
     console.log(error);
     return res.json({
