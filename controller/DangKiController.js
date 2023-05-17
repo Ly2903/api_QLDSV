@@ -42,12 +42,15 @@ export const getDSSVTheoMaLTC = async (req, res) => {
   }
   const { MaLTC } = body;
   try {
-    const DSSV = await DangKi.find({ MaLTC: MaLTC });
-    return res.status(200).json({
-      success: true,
-      message: "Lây danh sách sinh viên theo mã lớp tín chỉ thành công!",
-      DSSV,
+    const DSSV = (await DangKi.find({ MaLTC: MaLTC })).map((val) => {
+      return {
+        MaSV: val.MaSV,
+        DiemCC: val.DiemCC,
+        DiemGK: val.DiemGK,
+        DiemCK: val.DiemCK,
+      };
     });
+    return res.status(200).json(DSSV);
   } catch (error) {
     console.log(error);
     return res.json({
@@ -67,11 +70,7 @@ export const getSVTheoMaSVAndMaLTC = async (req, res) => {
   const { MaLTC, MaSV } = body;
   try {
     const sinhVien = await DangKi.findOne({ MaLTC: MaLTC, MaSV: MaSV });
-    return res.status(200).json({
-      success: true,
-      message: "Lây danh sách sinh viên theo mã lớp tín chỉ thành công!",
-      sinhVien,
-    });
+    return res.status(200).json(sinhVien);
   } catch (error) {
     console.log(error);
     return res.json({

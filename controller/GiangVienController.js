@@ -42,11 +42,7 @@ export const getTTGVTheoMaGV = async (req, res) => {
   const { MaGV } = body;
   try {
     const giangVien = await GiangVien.find({ MaGV: MaGV });
-    return res.status(200).json({
-      success: true,
-      message: "Lây thông tin giảng viên theo mã giảng viên thành công!",
-      giangVien,
-    });
+    return res.status(200).json(giangVien[0]);
   } catch (error) {
     console.log(error);
     return res.json({

@@ -54,7 +54,9 @@ export const getDSNamHocTheoLTC = async (req, res) => {
     ///parseInt("2018-2019".substring(0,4))
     ds = ds.map((val) => val.NamHoc);
     ds.sort();
-    return res.status(200).json(ds);
+    return res
+      .status(200)
+      .json(ds.filter((item, index) => ds.indexOf(item) === index));
   } catch (error) {
     console.log(error);
     return res.json({
@@ -62,4 +64,43 @@ export const getDSNamHocTheoLTC = async (req, res) => {
       message: "Thất bại!",
     });
   }
+};
+
+export const getDSLTCTheoMaGV = async (req, res) => {
+  let newTK = null;
+  if (Object.keys(req.body).length) {
+    newTK = req.body;
+  } else if (Object.keys(req.query).length) {
+    newTK = req.query;
+  }
+  const { MaGV } = newTK;
+  try {
+    const dSDay = await Day.find({ MaGV: MaGV });
+    const DSLTC = [];
+    if (dSDay && dSDay.length > 0) {
+      for (var index = 0; index < dSDay.length; index++) {
+        console.log(dSDay[index].MaLTC);
+        const ltc = await getLTCTheoMaLTC(dSDay[index].MaLTC).then((val) => {
+          if (val || val.length > 0)
+            DSLTC.push({
+              MaLTC: val[0].MaLTC,
+              TenMH: val[0].TenMH,
+            });
+          console.log(val);
+        });
+        if (index === dSDay.length - 1) return res.status(200).json(DSLTC);
+      }
+    }
+    return res.status(200).json();
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      success: false,
+      message: "Thất bại!",
+    });
+  }
+};
+
+export const getLTCTheoMaLTC = async (MaLTC) => {
+  return await LopTinChi.find({ MaLTC: MaLTC });
 };
