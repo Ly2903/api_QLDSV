@@ -10,6 +10,7 @@ import SinhVienRoute from "./routes/SinhVienRoute.js";
 import DangKiRoute from "./routes/DangKiRoute.js";
 import DayRoute from "./routes/DayRoute.js";
 import LopRoute from "./routes/LopRoute.js";
+import MonHocRoute from "./routes/MonHocRoute.js";
 import connectDB from "./database/index.js";
 
 //connect
@@ -28,6 +29,7 @@ app.use("/api/v1/sinhVien", SinhVienRoute);
 app.use("/api/v1/dangKi", DangKiRoute);
 app.use("/api/v1/day", DayRoute);
 app.use("/api/v1/lop", LopRoute);
+app.use("/api/v1/monHoc", MonHocRoute);
 
 app.listen(PORT, () => {
   console.log("Connect ", PORT);

@@ -1,5 +1,6 @@
 import Day from "../models/Day.js";
 import LopTinChi from "../models/LopTinChi.js";
+import MonHoc from "../models/MonHoc.js";
 
 export const getDSLTC = async (req, res) => {
   try {
@@ -84,11 +85,25 @@ export const getDSLTCTheoMaGV = async (req, res) => {
           if (val || val.length > 0)
             DSLTC.push({
               MaLTC: val[0].MaLTC,
-              TenMH: val[0].TenMH,
+              MaMH: val[0].MaMH,
             });
-          console.log(val);
         });
-        if (index === dSDay.length - 1) return res.status(200).json(DSLTC);
+        if (index === dSDay.length - 1) {
+          let result = [];
+          for (var index1 = 0; index1 < DSLTC.length; index1++) {
+            await getTenMHTheoMaMH(DSLTC[index1].MaMH).then((val1) => {
+              if (val1 || val1.length > 0) {
+                result.push({
+                  MaLTC: DSLTC[index1].MaLTC,
+                  TenMH: val1[0].TenMH,
+                });
+              }
+              if (index1 === DSLTC.length - 1) {
+                return res.status(200).json(result);
+              }
+            });
+          }
+        }
       }
     }
     return res.status(200).json();
@@ -103,4 +118,8 @@ export const getDSLTCTheoMaGV = async (req, res) => {
 
 export const getLTCTheoMaLTC = async (MaLTC) => {
   return await LopTinChi.find({ MaLTC: MaLTC });
+};
+
+export const getTenMHTheoMaMH = async (MaMH) => {
+  return await MonHoc.find({ MaMH: MaMH });
 };

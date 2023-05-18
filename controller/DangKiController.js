@@ -1,5 +1,7 @@
 import DangKi from "../models/DangKi.js";
 import Day from "../models/Day.js";
+import LopTinChi from "../models/LopTinChi.js";
+import MonHoc from "../models/MonHoc.js";
 import SinhVien from "../models/SinhVien.js";
 
 export const TaoDangKi = async (req, res) => {
@@ -41,16 +43,32 @@ export const getDSSVTheoMaLTC = async (req, res) => {
     body = req.query;
   }
   const { MaLTC } = body;
+  const result = [];
   try {
-    const DSSV = (await DangKi.find({ MaLTC: MaLTC })).map((val) => {
-      return {
-        MaSV: val.MaSV,
-        DiemCC: val.DiemCC,
-        DiemGK: val.DiemGK,
-        DiemCK: val.DiemCK,
-      };
-    });
-    return res.status(200).json(DSSV);
+    const dangKis = await DangKi.find({ MaLTC: MaLTC });
+    for (var index = 0; index < dangKis.length; index++) {
+      const ltc = await getLTCTheoMaLTC(dangKis[index].MaLTC);
+      if (ltc || ltc.length > 0) {
+        const mh = await getHeSoMH(ltc[0].MaMH).then((val1) => {
+          if (val1 || val1.length > 0) {
+            console.log(val1[0]);
+            result.push({
+              MaSV: dangKis[index].MaSV,
+              DiemCC: dangKis[index].DiemCC,
+              DiemGK: dangKis[index].DiemGK,
+              DiemCK: dangKis[index].DiemCK,
+              DiemTK:
+                (dangKis[index].DiemCC * val1[0].HeSoCC) / 100 +
+                (dangKis[index].DiemGK * val1[0].HeSoGK) / 100 +
+                (dangKis[index].DiemCK * val1[0].HeSoCK) / 100,
+            });
+          }
+        });
+      }
+      if (index == dangKis.length - 1) {
+        return res.status(200).json(result);
+      }
+    }
   } catch (error) {
     console.log(error);
     return res.json({
@@ -109,4 +127,12 @@ export const capNhatDiem = async (req, res) => {
       message: "Lỗi khi cập nhật điểm!",
     });
   }
+};
+
+export const getHeSoMH = async (MaMH) => {
+  return await MonHoc.find({ MaMH: MaMH });
+};
+
+export const getLTCTheoMaLTC = async (MaLTC) => {
+  return await LopTinChi.find({ MaLTC: MaLTC });
 };

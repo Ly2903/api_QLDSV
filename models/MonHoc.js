@@ -5,7 +5,7 @@ const MonHoc = new Schema(
   {
     MaMH: String,
     TenMH: String,
-    TeSoTietLTnMH: String,
+    SoTietTH: Number,
     SoTietLT: Number,
     SLToiDa: Number,
     SoTinChi: Number,
