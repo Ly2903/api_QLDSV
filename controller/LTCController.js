@@ -74,39 +74,47 @@ export const getDSLTCTheoMaGV = async (req, res) => {
   } else if (Object.keys(req.query).length) {
     newTK = req.query;
   }
-  const { MaGV } = newTK;
+  const { MaGV, NamHoc, HocKi } = newTK;
   try {
     const dSDay = await Day.find({ MaGV: MaGV });
     const DSLTC = [];
     if (dSDay && dSDay.length > 0) {
       for (var index = 0; index < dSDay.length; index++) {
         console.log(dSDay[index].MaLTC);
-        const ltc = await getLTCTheoMaLTC(dSDay[index].MaLTC).then((val) => {
-          if (val || val.length > 0)
+        const ltc = await getLTCTheoMaLTC(
+          dSDay[index].MaLTC,
+          NamHoc,
+          HocKi
+        ).then((val) => {
+          if (val && val.length > 0) {
             DSLTC.push({
               MaLTC: val[0].MaLTC,
               MaMH: val[0].MaMH,
             });
+          }
         });
         if (index === dSDay.length - 1) {
+          console.log(DSLTC);
           let result = [];
-          for (var index1 = 0; index1 < DSLTC.length; index1++) {
-            await getTenMHTheoMaMH(DSLTC[index1].MaMH).then((val1) => {
-              if (val1 || val1.length > 0) {
-                result.push({
-                  MaLTC: DSLTC[index1].MaLTC,
-                  TenMH: val1[0].TenMH,
-                });
-              }
-              if (index1 === DSLTC.length - 1) {
-                return res.status(200).json(result);
-              }
-            });
+          if (DSLTC.length == 0) return res.status(200).json(result);
+          else {
+            for (var index1 = 0; index1 < DSLTC.length; index1++) {
+              await getTenMHTheoMaMH(DSLTC[index1].MaMH).then((val1) => {
+                if (val1 && val1.length > 0) {
+                  result.push({
+                    MaLTC: DSLTC[index1].MaLTC,
+                    TenMH: val1[0].TenMH,
+                  });
+                }
+                if (index1 === DSLTC.length - 1) {
+                  return res.status(200).json(result);
+                }
+              });
+            }
           }
         }
       }
-    }
-    return res.status(200).json();
+    } else return res.status(200).json([]);
   } catch (error) {
     console.log(error);
     return res.json({
@@ -116,8 +124,13 @@ export const getDSLTCTheoMaGV = async (req, res) => {
   }
 };
 
-export const getLTCTheoMaLTC = async (MaLTC) => {
-  return await LopTinChi.find({ MaLTC: MaLTC });
+export const getLTCTheoMaLTC = async (MaLTC, NamHoc, HocKi) => {
+  if (NamHoc && HocKi)
+    return await LopTinChi.find({ MaLTC: MaLTC, NamHoc: NamHoc, HocKi: HocKi });
+  else if (NamHoc)
+    return await LopTinChi.find({ MaLTC: MaLTC, NamHoc: NamHoc });
+  else if (HocKi) return await LopTinChi.find({ MaLTC: MaLTC, HocKi: HocKi });
+  else return await LopTinChi.find({ MaLTC: MaLTC });
 };
 
 export const getTenMHTheoMaMH = async (MaMH) => {
