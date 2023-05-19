@@ -125,11 +125,12 @@ export const getDSLTCTheoMaGV = async (req, res) => {
 };
 
 export const getLTCTheoMaLTC = async (MaLTC, NamHoc, HocKi) => {
-  if (NamHoc && HocKi)
+  if (NamHoc != "All" && HocKi != "All")
     return await LopTinChi.find({ MaLTC: MaLTC, NamHoc: NamHoc, HocKi: HocKi });
-  else if (NamHoc)
+  else if (NamHoc != "All" && HocKi == "All")
     return await LopTinChi.find({ MaLTC: MaLTC, NamHoc: NamHoc });
-  else if (HocKi) return await LopTinChi.find({ MaLTC: MaLTC, HocKi: HocKi });
+  else if (HocKi != "All" && NamHoc == "All")
+    return await LopTinChi.find({ MaLTC: MaLTC, HocKi: HocKi });
   else return await LopTinChi.find({ MaLTC: MaLTC });
 };
 
